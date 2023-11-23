@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="3cx_form_view" model="ir.ui.view">
+        <field name="name">3cx.form.view</field>
+        <field name="model">config.3cx</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="filename" invisible="1"/>
+                        <field name="db_url"/>
+                        <field name="db_token"/>
+                        <field name="configuration" filename="filename" readonly="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Generate config" type="object" name="generate_configuration" class="btn-primary"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_open_3cx_configuration" model="ir.actions.act_window">
+        <field name="name">3CX Configuration</field>
+        <field name="res_model">config.3cx</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_3cx_configuration"
+            name="3CX Configuration"
+            parent="contacts.menu_contacts"
+            sequence="2"
+            action="action_open_3cx_configuration"/>
+</odoo>

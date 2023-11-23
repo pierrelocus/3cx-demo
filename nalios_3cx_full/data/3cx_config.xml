@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="3cx_template">
+        <Crm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" Country="US" Name="3CX Odoo Integration" Version="1" SupportsEmojis="true">
+            <Number Prefix="AsIs" MaxLength="[MaxLength]" />
+            <Connection MaxConcurrentRequests="2" />
+            <Parameters>
+                <Parameter Name="APIkey" Type="String" Parent="General Configuration" Editor="String" Title="API Key:" t-att-Default="api_key" />
+                <Parameter Name="ReportCallEnabled" Type="Boolean" Editor="String" Title="Enable Call Journaling" Default="False" />
+                <Parameter Name="Subject" Type="String" Parent="ReportCallEnabled" Editor="String" Title="Call Subject:" Default="3CX PhoneSystem Call" />
+                <Parameter Name="InboundCallText" Type="String" Parent="ReportCallEnabled" Editor="String" Title="Answered Inbound Call:" Default="[DateTime]: Answered incoming call from [Number] to [Agent] ([Duration])" />
+                <Parameter Name="MissedCallText" Type="String" Parent="ReportCallEnabled" Editor="String" Title="Missed Call:" Default="[DateTime]: Missed call from [Number] to [Agent]" />
+                <Parameter Name="OutboundCallText" Type="String" Parent="ReportCallEnabled" Editor="String" Title="Answered Outbound Call:" Default="[DateTime]: Answered outgoing call from [Agent] to [Number] ([Duration])" />
+                <Parameter Name="NotAnsweredOutboundCallText" Type="String" Parent="ReportCallEnabled" Editor="String" Title="Unanswered Outbound Call:" Default="[DateTime]: Unanswered outgoing call from [Agent] to [Number]" />
+                <Parameter Name="ReportChatEnabled" Type="Boolean" Editor="String" Title="Enable Chat Journaling" Default="False" />
+                <Parameter Name="ChatSubject" Type="String" Parent="ReportChatEnabled" Editor="String" Title="Chat Subject:" Default="3CX PhoneSystem Chat Session" />
+            </Parameters>
+            <Authentication Type="Basic">
+                <Value>[APIkey]:X</Value>
+            </Authentication>
+            <Scenarios>
+                <Scenario Id="" Type="REST">
+                    <Request t-att-Url="base_url + '3cx/search/number/[Number]/[CallDirection]'" MessagePasses="0" RequestEncoding="UrlEncoded" RequestType="Get" ResponseType="Json" />
+                    <Rules>
+                        <Rule Type="Any">id</Rule>
+                    </Rules>
+                    <Variables>
+                        <Variable Name="ContactID" Path="id">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="FirstName" Path="name">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="CompanyName" Path="company">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="Email" Path="email">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="PhoneBusiness" Path="phone">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="PhoneBusiness2" Path="phone_1">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="PhoneMobile" Path="mobile">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="PhoneMobile2" Path="mobile_1">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="ContactUrl" Path="show_url">
+                            <Filter />
+                        </Variable>
+                    </Variables>
+                    <Outputs AllowEmpty="false">
+                        <Output Type="ContactID" Passes="0" Value="[ContactID]" />
+                        <Output Type="FirstName" Passes="0" Value="[FirstName]" />
+                        <Output Type="CompanyName" Passes="0" Value="[CompanyName]" />
+                        <Output Type="Email" Passes="0" Value="[Email]" />
+                        <Output Type="PhoneBusiness" Passes="0" Value="[PhoneBusiness]" />
+                        <Output Type="PhoneBusiness2" Passes="0" Value="[PhoneBusiness2]" />
+                        <Output Type="PhoneMobile" Passes="0" Value="[PhoneMobile]" />
+                        <Output Type="PhoneMobile2" Passes="0" Value="[PhoneMobile2]" />
+                        <Output Type="ContactUrl" Passes="0" Value="[ContactUrl]" />
+                        <Output Type="EntityId" Passes="0" Value="[ContactID]" />
+                        <Output Type="EntityType" Passes="0" Value="Contacts" />
+                    </Outputs>
+                </Scenario>
+                <Scenario Id="LookupByEmail" Type="REST">
+                    <Request t-att-Url="base_url + '3cx/search/email/[Email]'" MessagePasses="0" RequestEncoding="UrlEncoded" RequestType="Get" ResponseType="Json" />
+                    <Rules>
+                        <Rule Type="Any">id</Rule>
+                    </Rules>
+                    <Variables>
+                        <Variable Name="ContactID" Path="id">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="FirstName" Path="name">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="CompanyName" Path="company">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="Email" Path="email">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="PhoneBusiness" Path="phone">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="PhoneBusiness2" Path="phone_1">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="PhoneMobile" Path="mobile">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="PhoneMobile2" Path="mobile_1">
+                            <Filter />
+                        </Variable>
+                        <Variable Name="ContactUrl" Path="show_url">
+                            <Filter />
+                        </Variable>
+                    </Variables>
+                    <Outputs AllowEmpty="false">
+                        <Output Type="ContactID" Passes="0" Value="[ContactID]" />
+                        <Output Type="FirstName" Passes="0" Value="[FirstName]" />
+                        <Output Type="CompanyName" Passes="0" Value="[CompanyName]" />
+                        <Output Type="Email" Passes="0" Value="[Email]" />
+                        <Output Type="PhoneBusiness" Passes="0" Value="[PhoneBusiness]" />
+                        <Output Type="PhoneBusiness2" Passes="0" Value="[PhoneBusiness2]" />
+                        <Output Type="PhoneMobile" Passes="0" Value="[PhoneMobile]" />
+                        <Output Type="PhoneMobile2" Passes="0" Value="[PhoneMobile2]" />
+                        <Output Type="ContactUrl" Passes="0" Value="[ContactUrl]" />
+                        <Output Type="EntityId" Passes="0" Value="[ContactID]" />
+                        <Output Type="EntityType" Passes="0" Value="Contacts" />
+                    </Outputs>
+                </Scenario>
+                <Scenario Id="ReportCall" Type="REST">
+                    <Request SkipIf="[IIf([ReportCallEnabled]!=True||[EntityId]==&quot;&quot;,True,[IIf([CallType]!=Inbound,True,False)])]" t-att-Url="base_url + '3cx/call/log'" MessagePasses="0" RequestContentType="application/json" RequestEncoding="Json" RequestType="Post" ResponseType="Json">
+                        <PostValues Key="">
+                            <Value Key="phone" Passes="1" Type="String">[Number]</Value>
+                            <Value Key="type" Passes="1" Type="String">[CallType]</Value>
+                            <Value Key="entitytype" Passes="1" Type="String">[EntityType]</Value>
+                            <Value Key="agent" Passes="1" Type="String">[Agent]</Value>
+                            <Value Key="agentname" Passes="1" Type="String">[AgentFirstName] [AgentLastName]</Value>
+                            <Value Key="duration" Passes="1" Type="String">[Duration]</Value>
+                            <Value Key="date" Passes="1" Type="String">[DateTime]</Value>
+                            <Value Key="subject" Passes="2" Type="String">[Subject]</Value>
+                            <Value Key="inbound" Passes="2" Type="String">[InboundCallText]</Value>
+                            <Value Key="notansweredoutbound" Passes="2" Type="String">[NotAnsweredOutboundCallText]</Value>
+                            <Value Key="outbound" Passes="2" Type="String">[OutboundCallText]</Value>
+                            <Value Key="missed" Passes="2" Type="String">[MissedCallText]</Value>
+                        </PostValues>
+                    </Request>
+                    <Variables />
+                    <Outputs AllowEmpty="true" />
+                </Scenario>
+                <Scenario Id="ReportChat" Type="REST">
+                    <Request SkipIf="[ReportChatEnabled]!=True" t-att-Url="base_url + '3cx/chat/create'" MessagePasses="0" RequestContentType="application/json" RequestEncoding="Json" RequestType="Post" ResponseType="Json">
+                        <PostValues Key="">
+                            <Value Key="number" Passes="1" Type="String">[Number]</Value>
+                            <Value Key="email" Passes="1" Type="String">[Email]</Value>
+                            <Value Key="name" Passes="1" Type="String">[Name]</Value>
+                            <Value Key="entitytype" Passes="1" Type="String">[EntityType]</Value>
+                            <Value Key="messages" Passes="1" Type="String">[ChatMessages]</Value>
+                            <Value Key="agent" Passes="1" Type="String">[Agent]</Value>
+                            <Value Key="agentname" Passes="1" Type="String">[AgentFirstName] [AgentLastName]</Value>
+                            <Value Key="duration" Passes="1" Type="String">[Duration]</Value>
+                            <Value Key="date" Passes="1" Type="String">[DateTime]</Value>
+                            <Value Key="subject" Passes="2" Type="String">[ChatSubject]</Value>
+                        </PostValues>
+                    </Request>
+                    <Variables />
+                    <Outputs AllowEmpty="false" />
+                </Scenario>
+            </Scenarios>
+        </Crm>
+    </template>
+</odoo>

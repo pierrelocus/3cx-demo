@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="priority">9</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='phone']" position="after">
+                <field name="phone_1" widget="phone" string="Phone 1"/>
+            </xpath>
+            <xpath expr="//field[@name='mobile']" position="after">
+                <field name="mobile_1" widget="phone" string="Mobile 1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
